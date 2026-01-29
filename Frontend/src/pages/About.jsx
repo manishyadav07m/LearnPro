@@ -321,7 +321,9 @@ const About = () => {
               Be part of the educational revolution. Together, we're shaping the future of learning with AI-powered education.
             </motion.p>
             
-            {/* ✅ UPDATED BUTTON WITH ONCLICK HANDLER */}
+
+
+
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.3)" }}
               whileTap={{ scale: 0.95 }}
