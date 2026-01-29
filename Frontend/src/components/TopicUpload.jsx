@@ -2,10 +2,10 @@ import React, { useState, useRef, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { FileText, Upload, Camera, RefreshCw, Loader2, FileCheck } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { uploadSyllabus } from '../api/apiService.js';
+import axios from 'axios'; 
 import { motion, AnimatePresence } from 'framer-motion';
 
-const TopicUpload = ({ onUpload }) => {
+const TopicUpload = ({ onUpload, userId }) => {
   const [topic, setTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [method, setMethod] = useState('text'); 
@@ -35,18 +35,33 @@ const TopicUpload = ({ onUpload }) => {
 
     setIsLoading(true);
     try {
-      const data = method === 'text' 
-        ? new File([new Blob([topic], { type: 'text/plain' })], "topic.txt", { type: 'text/plain' }) 
-        : file;
       
-      const res = await uploadSyllabus(data);
-      onUpload({ 
-        topic: method === 'text' ? topic.substring(0, 20) + "..." : file.name, 
-        questions: res 
+      const formData = new FormData();
+      
+     
+      if (userId) formData.append('userId', userId);
+
+    
+      if (method === 'text') {
+        formData.append('textInput', topic);
+        formData.append('topicName', topic.substring(0, 30));
+      } else {
+        formData.append('file', file);
+        formData.append('topicName', file.name);
+      }
+      
+     
+      const response = await axios.post('http://localhost:5001/api/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      toast.success('✨ Study kit generated!');
+
+      
+      onUpload(response.data);
+      
+      toast.success('✨ Study kit generated & saved!');
     } catch (err) {
-      toast.error(err.message || "Failed to generate.");
+      console.error(err);
+      toast.error(err.response?.data?.error || "Failed to generate.");
       if (method !== 'text') setFile(null);
     } finally { 
       setIsLoading(false); 
@@ -68,7 +83,12 @@ const TopicUpload = ({ onUpload }) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+
+
         <AnimatePresence mode="wait">
+
+
+
           {method === 'text' ? (
             <motion.textarea initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               value={topic} onChange={e => setTopic(e.target.value)} rows={6} 
@@ -111,9 +131,3 @@ const TopicUpload = ({ onUpload }) => {
   );
 };
 export default TopicUpload;
-
-
-
-
-
-
