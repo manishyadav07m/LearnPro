@@ -1,9 +1,9 @@
 const Tesseract = require('tesseract.js');
-const { HfInference } = require('@huggingface/inference');
+
 const Syllabus = require('../models/Syllabus');
 const fs = require('fs');
 
-const hf = new HfInference(process.env.HF_TOKEN);
+
 
 exports.processSyllabus = async (req, res) => {
   try {
@@ -20,8 +20,8 @@ exports.processSyllabus = async (req, res) => {
       return res.status(400).json({ error: "OCR failed. Text too short." });
     }
 
-    // 2. AI Generation (Using Phi-3 for stability)
-    const truncatedText = text.slice(0, 2500); // Limit for Free Tier
+
+    const truncatedText = text.slice(0, 2500); 
     
     const prompt = `
       Analyze this syllabus and return ONLY valid JSON.
