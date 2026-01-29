@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, Target, Globe, Heart, Sparkles, Award, Book, X, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import HowItWorks from '../components/HowItWorks';
 
 const About = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -228,6 +229,20 @@ const About = () => {
             </div>
           </motion.div>
         </motion.div>
+
+
+       <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="text-center mb-12"
+        >
+
+           <HowItWorks /> 
+
+        </motion.div>      
+
+        
 
         <motion.div
           initial="hidden"
