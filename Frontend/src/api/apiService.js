@@ -5,7 +5,9 @@ import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
 
 
-// --- UPLOAD ---
+
+
+
 export const uploadSyllabus = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
@@ -20,7 +22,10 @@ export const uploadSyllabus = async (file) => {
   }
 };
 
-// --- AUTH ---
+
+
+
+
 export const registerUser = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/auth/register`, userData);
@@ -39,7 +44,10 @@ export const loginUser = async (userData) => {
   }
 };
 
-// --- HISTORY (NEW) ---
+
+
+
+
 export const saveUserHistory = async (historyData) => {
   try {
     const response = await axios.post(`${API_URL}/history/save`, historyData);
@@ -60,7 +68,9 @@ export const getUserHistory = async (userId) => {
   }
 };
 
-// --- NEW DELETE FUNCTION ---
+
+
+
 export const deleteUserHistory = async (historyId) => {
   try {
     await axios.delete(`${API_URL}/history/${historyId}`);
@@ -75,7 +85,10 @@ export const deleteUserHistory = async (historyId) => {
 
 export const updateUserProfile = async (formData) => {
   try {
-    // Note: formData must contain 'userId', 'name', and optionally 'profileImage'
+   
+
+
+
     const response = await axios.put(`${API_URL}/auth/profile`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
